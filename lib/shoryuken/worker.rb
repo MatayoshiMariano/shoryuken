@@ -14,6 +14,10 @@ module Shoryuken
 
         options[:message_body] = body
 
+        if Shoryuken.options[:using_eb]
+          options[:message_body]['shoryuken_class'] = self.to_s
+        end
+
         queue = options.delete(:queue) || get_shoryuken_options['queue']
 
         Shoryuken::Client.queues(queue).send_message(options)
