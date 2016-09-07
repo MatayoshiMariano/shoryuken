@@ -39,8 +39,8 @@ module Shoryuken
       quiet: [],
       shutdown: []
     },
-    using_eb: true,
-    polling_strategy: Polling::WeightedRoundRobin
+    polling_strategy: Polling::WeightedRoundRobin,
+    using_eb: true
   }.freeze
 
   @@queues                          = []
