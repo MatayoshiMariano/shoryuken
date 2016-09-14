@@ -11,7 +11,12 @@ module Shoryuken
       body = get_body(worker.class, sqs_msg)
 
       worker.class.server_middleware.invoke(worker, queue, sqs_msg, body) do
-        worker.perform(sqs_msg, body)
+        if body.present?
+          params = perform_params(sqs_msg, body)
+          worker.perform(params)
+        else
+          worker.perform
+        end
       end
     rescue Exception => ex
       @manager.processor_failed(ex)
@@ -21,6 +26,12 @@ module Shoryuken
     end
 
     private
+
+    def perform_params(sqs_msg, body)
+      {
+        "sqs_msg" => sqs_msg
+      }.merge(body)
+    end
 
     def get_body(worker_class, sqs_msg)
       if sqs_msg.is_a? Array

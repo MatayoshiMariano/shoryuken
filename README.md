@@ -72,11 +72,13 @@ class MyWorker
   # shoryuken_options body_parser: ->(sqs_msg){ REXML::Document.new(sqs_msg.body) }
   # shoryuken_options body_parser: JSON
 
-  def perform(sqs_msg, body)
+  def perform(body)
     puts body
   end
 end
 ```
+
+The perform method can also be parameterless
 
 [Check the Worker options documention](https://github.com/phstc/shoryuken/wiki/Worker-options).
 
